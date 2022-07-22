@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ReferralStatus;
 use App\Http\Requests\StoreReferralRequest;
-use App\Models\Referral;
 use App\Services\ReferralService;
-use Illuminate\Http\Request;
 
 class ReferralController extends Controller
 {
@@ -16,7 +15,13 @@ class ReferralController extends Controller
      */
     public function index()
     {
-        return view('referrals');
+        $referrals = auth()->user()->referrals;
+        $claimedReferrals = $referrals->where('status', ReferralStatus::Claimed);
+
+        return view('referrals')->with([
+            'referrals' => $referrals,
+            'claimedReferrals' => $claimedReferrals
+        ]);
     }
 
     /**

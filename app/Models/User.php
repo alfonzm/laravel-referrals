@@ -42,6 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Relations
+    |--------------------------------------------------------------------------
+    */
+
     public function referrals() {
         return $this->hasMany(Referral::class, 'referrer_user_id');
     }

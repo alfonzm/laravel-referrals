@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\ReferralStatus;
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Referral extends Model
 {
@@ -43,5 +44,9 @@ class Referral extends Model
 
     public function getInviteLinkAttribute() {
         return route('registerReferral', ['code' => $this->code]);
+    }
+
+    public function getFormattedStatusAttribute() {
+        return ReferralStatus::getDescription($this->status);
     }
 }
