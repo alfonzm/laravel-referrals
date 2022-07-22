@@ -18,6 +18,7 @@ class StoreTest extends TestCase
 
     private $authenticatedEmail = 'authenticated@email.com';
     private $registeredEmail    = 'registered@email.com';
+    private $invitedEmail       = 'invited@email.com';
 
     /** @test */
     public function unauthenticatedUserCannotCreateReferrals()
@@ -66,6 +67,7 @@ class StoreTest extends TestCase
 
         // Create a user and referral to test errors for existing and invited emails
         User::factory()->create(['email' => $this->registeredEmail]);
+        Referral::factory()->create(['recipient_email' => $this->invitedEmail]);
 
         $authUser = User::factory()->create(['email' => $this->authenticatedEmail]);
 
@@ -85,6 +87,7 @@ class StoreTest extends TestCase
             'duplicate emails'      => [['duplicate@email.com', 'duplicate@email.com']],
             'current user email'    => [[$this->authenticatedEmail]],
             'registered user email' => [[$this->registeredEmail]],
+            'invited user email'    => [[$this->invitedEmail]],
         ];
     }
 }

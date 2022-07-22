@@ -24,6 +24,7 @@ class StoreReferralRequest extends FormRequest
                 'email',
                 'distinct',
                 'unique:users,email',
+                'unique:referrals,recipient_email',
             ],
         ];
     }
@@ -39,7 +40,7 @@ class StoreReferralRequest extends FormRequest
             'emails.min'        => 'An email address is required.',
             'emails.*.required' => 'An email address is required.',
             'emails.*.distinct' => 'The email address :input has a duplicate value.',
-            'emails.*.unique'   => ':input already uses ContactOut.',
+            'emails.*.unique'   => ':input is already invited or registered to ContactOut.',
         ];
     }
 
