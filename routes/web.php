@@ -24,6 +24,7 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::resource('/referrals', ReferralController::class)->only(['index']);
+    Route::resource('/referrals', ReferralController::class)
+        ->only(['index', 'store']);
 });
 

@@ -16,15 +16,14 @@ class CreateReferralsTable extends Migration
     {
         Schema::create('referrals', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('referrer_user_id')
-                ->nullable()
-                ->constrained('users')
-                ->nullOnDelete();
-
+            $table->unsignedBigInteger('referrer_user_id');
             $table->string('recipient_email');
             $table->string('status')->default(ReferralStatus::Sent);
             $table->timestamps();
+
+            $table->foreign('referrer_user_id')
+                ->references('id')
+                ->on('users');
         });
     }
 

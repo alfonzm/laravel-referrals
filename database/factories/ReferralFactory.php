@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\ReferralStatus;
 use App\Models\Referral;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ReferralFactory extends Factory
@@ -22,7 +24,9 @@ class ReferralFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'referrer_user_id' => User::factory()->create()->id,
+            'recipient_email' => $this->faker->unique()->safeEmail(),
+            'status' => ReferralStatus::Sent
         ];
     }
 }
