@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReferralRequest;
 use App\Models\Referral;
+use App\Services\ReferralService;
 use Illuminate\Http\Request;
 
 class ReferralController extends Controller
@@ -23,21 +24,11 @@ class ReferralController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function store(StoreReferralRequest $request)
+    public function store(StoreReferralRequest $request, ReferralService $referralService)
     {
         $validated = $request->validated();
 
-        $emails = collect($validated['emails'] ?? [])
-            ->map(function ($email) {
-                return [
-                    'referrer_user_id' => auth()->user()->id,
-                    'recipient_email' => $email,
-                ];
-            });
-
-        $request->user()
-            ->referrals()
-            ->createMany($emails);
+        $referralService->createReferrals($request->user(), $validated['emails']);
 
         return response('Successful', 201);
     }

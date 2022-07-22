@@ -63,7 +63,6 @@ class StoreTest extends TestCase
 
         $response = $this->actingAs($authUser)
             ->postJson(route('referrals.store'), ['emails' => $emails])
-            ->dump()
             ->assertStatus(422);
     }
 
