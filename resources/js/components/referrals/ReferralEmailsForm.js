@@ -43,10 +43,9 @@ const ReferralEmailsForm = () => {
                 placeholder="email@email.com"
                 validatedEmail={isEmail}
             />
-            <div>
+            <p class="text-danger">
                 {errorMessage}
-            </div>
-            <br />
+            </p>
             <input className="btn btn-primary" type="submit" />
         </form>
     )
