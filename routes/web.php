@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReferralController;
+use App\Http\Controllers\RegisterReferralController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,3 +29,4 @@ Route::group(['middleware' => 'auth'], function () {
         ->only(['index', 'store']);
 });
 
+Route::get('/refer', RegisterReferralController::class)->name('registerReferral');

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
+use App\Models\Referral;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
+use App\Rules\ValidReferralCode;
+use App\Services\ReferralService;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -49,11 +52,16 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        return Validator::make($data,
+            [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'referral_code' => ['sometimes', 'exists:referrals,code']
+            ],
+            [
+                'referral_code.exists' => 'The :attribute is invalid.'
+            ]);
     }
 
     /**
@@ -64,10 +72,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        if(request()->has('referral_code')) {
+            $referral = Referral::where('code', request()->input('referral_code'))->first();
+            (new ReferralService())->claimReferral($referral);
+        }
+
+        return $user;
     }
 }

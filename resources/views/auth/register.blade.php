@@ -5,7 +5,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                @if (request()->has('code'))
+                    <div class="card-header">{{ __('You have been invited to ContactOut!') }}</div>
+                @else
+                    <div class="card-header">{{ __('Register') }}</div>
+                @endif
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
@@ -60,6 +64,23 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+
+                        @if (request()->has('code'))
+                            <div class="row mb-3">
+                                <label for="referral-code" class="col-md-4 col-form-label text-md-end">{{ __('Referral Code') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="referral-code" type="text" class="form-control @error('referral_code') is-invalid @enderror" name="referral_code" value="{{ request()->get('code') }}">
+
+                                    @error('referral_code')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+
+                            </div>
+                        @endif
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">

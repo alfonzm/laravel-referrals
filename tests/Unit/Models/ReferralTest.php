@@ -23,7 +23,7 @@ class ReferralTest extends TestCase
 
         $this->assertEquals(
             $referral->inviteLink,
-            route('refer', ['code' => $referral->code])
+            route('registerReferral', ['code' => $referral->code])
         );
     }
 }

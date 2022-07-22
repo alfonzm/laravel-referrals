@@ -25,11 +25,23 @@ class Referral extends Model
         });
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Relations
+    |--------------------------------------------------------------------------
+    */
+
     public function referrer() {
         return $this->belongsTo(User::class, 'referrer_user_id', 'id');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Accessor methods
+    |--------------------------------------------------------------------------
+    */
+
     public function getInviteLinkAttribute() {
-        return route('refer', ['code' => $this->code]);
+        return route('registerReferral', ['code' => $this->code]);
     }
 }

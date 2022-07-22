@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\ReferralStatus;
 use App\Jobs\SendReferralLink;
 use App\Models\Referral;
 use App\Models\User;
@@ -29,5 +30,17 @@ class ReferralService
         $referrals->each(function($referral) {
             SendReferralLink::dispatch($referral);
         });
+    }
+
+    /**
+     * Mark a referral as claimed after the recipient has registered
+     *
+     * @param User $user User who creates the referrals, i.e. referrer
+     * @param array $emails Emails to send out invitations to
+     * @return void
+     */
+    public function claimReferral(Referral $referral)
+    {
+        $referral->update(['status' => ReferralStatus::Claimed]);
     }
 }
