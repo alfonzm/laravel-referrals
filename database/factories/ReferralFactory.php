@@ -29,4 +29,18 @@ class ReferralFactory extends Factory
             'status' => ReferralStatus::Sent
         ];
     }
+
+    /**
+     * Indicate that the referral was already claimed
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function claimed()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => ReferralStatus::Claimed
+            ];
+        });
+    }
 }

@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\ReferralStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Referral;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use App\Rules\ValidReferralCode;
+use App\Rules\UnclaimedReferralCode;
 use App\Services\ReferralService;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -57,10 +59,7 @@ class RegisterController extends Controller
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
-                'referral_code' => ['sometimes', 'exists:referrals,code']
-            ],
-            [
-                'referral_code.exists' => 'The :attribute is invalid.'
+                'referral_code' => ['sometimes', new UnclaimedReferralCode]
             ]);
     }
 

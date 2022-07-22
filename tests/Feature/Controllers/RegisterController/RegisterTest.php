@@ -26,6 +26,8 @@ class RegisterTest extends TestCase
         ]);
 
         $response->assertStatus(201);
+
+        $this->assertDatabaseCount('users', 2);
     }
 
     /** @test */
@@ -43,10 +45,28 @@ class RegisterTest extends TestCase
 
         $response->assertStatus(201);
 
+        $this->assertDatabaseCount('users', 2);
+
         $this->assertDatabaseHas('referrals', [
             'id' => $referral->id,
             'status' => ReferralStatus::Claimed
         ]);
+    }
+
+    /** @test */
+    public function guestCannotRegisterWithClaimedReferralCode()
+    {
+        $claimedReferral = Referral::factory()->claimed()->create();
+
+        $response = $this->postJson(route('register'), [
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email(),
+            'password' => '::password::',
+            'password_confirmation' => '::password::',
+            'referral_code' => $claimedReferral->code,
+        ]);
+
+        $response->assertStatus(422);
     }
 
     /** @test */
