@@ -4,6 +4,18 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            {{-- Invite Form --}}
+            <div class="card mb-5">
+                <div class="card-header">{{ __('Invite a Friend') }}</div>
+                <div class="card-body">
+                    <p>Send referral links</p>
+                    <div>
+                        <div id="referral-emails-form"></div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Referral Credits --}}
             <div class="card mb-5">
                 <div class="card-header">{{ __('Referral Credits') }}</div>
                 <div class="card-body">
@@ -11,6 +23,7 @@
                 </div>
             </div>
 
+            {{-- Referrals List --}}
             <div class="card">
                 <div class="card-header">{{ __('Referrals') }}</div>
                 <div class="card-body">
