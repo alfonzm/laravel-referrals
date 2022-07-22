@@ -28,7 +28,7 @@ class ReferralController extends Controller
     {
         $validated = $request->validated();
 
-        $referralService->createReferrals($request->user(), $validated['emails']);
+        $referralService->sendReferralLink($request->user(), $validated['emails']);
 
         return response('Successful', 201);
     }

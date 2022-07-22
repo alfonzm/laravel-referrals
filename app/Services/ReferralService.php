@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\SendReferralLink;
 use App\Models\Referral;
 use App\Models\User;
 
@@ -14,15 +15,19 @@ class ReferralService
      * @param array $emails Emails to send out invitations to
      * @return void
      */
-    public function createReferrals(User $referrer, array $emails)
+    public function sendReferralLink(User $referrer, array $emails)
     {
-        $referrals = collect($emails)->map(function ($email) use ($referrer) {
-            return [
-                'referrer_user_id' => $referrer->id,
-                'recipient_email' => $email,
-            ];
-        });
+        // Create referrals and persist to DB
+        $referralEmails = collect($emails)
+            ->map(function ($email) {
+                return ['recipient_email' => $email];
+            });
 
-        $referrer->referrals()->createMany($referrals);
+        $referrals = $referrer->referrals()->createMany($referralEmails);
+
+        // Send out invitation links
+        $referrals->each(function($referral) {
+            SendReferralLink::dispatch($referral);
+        });
     }
 }

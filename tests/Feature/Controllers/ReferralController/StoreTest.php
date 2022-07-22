@@ -3,10 +3,12 @@
 namespace Tests\Feature\Controllers\ReferralController;
 
 use App\Enums\ReferralStatus;
+use App\Jobs\SendReferralLink;
 use App\Models\Referral;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 class StoreTest extends TestCase
@@ -26,8 +28,10 @@ class StoreTest extends TestCase
     }
 
     /** @test */
-    public function authenticatedUserCanCreateReferrals()
+    public function authenticatedUserCanSendReferrals()
     {
+        Queue::fake();
+
         $referrerUser = User::factory()->create();
         $recipientEmails = [
             $this->faker->email(),
@@ -39,7 +43,7 @@ class StoreTest extends TestCase
 
         $response->assertCreated();
 
-        $this->assertDatabaseCount('referrals', 2);
+        $this->assertDatabaseCount('referrals', count($recipientEmails));
 
         foreach($recipientEmails as $email) {
             $this->assertDatabaseHas('referrals', [
@@ -48,6 +52,8 @@ class StoreTest extends TestCase
                 'status'           => ReferralStatus::Sent,
             ]);
         }
+
+        Queue::assertPushed(SendReferralLink::class, count($recipientEmails));
     }
 
     /**
@@ -56,6 +62,8 @@ class StoreTest extends TestCase
      */
     public function invalidEmailsShouldReturnErrors($emails)
     {
+        Queue::fake();
+
         // Create a user and referral to test errors for existing and invited emails
         User::factory()->create(['email' => $this->registeredEmail]);
 
@@ -64,6 +72,8 @@ class StoreTest extends TestCase
         $response = $this->actingAs($authUser)
             ->postJson(route('referrals.store'), ['emails' => $emails])
             ->assertStatus(422);
+
+        Queue::assertNothingPushed();
     }
 
     public function provideInvalidEmailsData()
