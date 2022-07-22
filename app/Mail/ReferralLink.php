@@ -34,6 +34,6 @@ class ReferralLink extends Mailable
     public function build()
     {
         return $this->subject($this->referrerName . ' recommends ContactOut')
-            ->view('emails.referrals.invitation');
+            ->markdown('emails.referrals.invitation');
     }
 }
