@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { ReactMultiEmail, isEmail } from 'react-multi-email';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
+import { ReactMultiEmail, isEmail } from 'react-multi-email';
 import 'react-multi-email/style.css';
 
 const ReferralEmailsForm = () => {
@@ -25,7 +26,7 @@ const ReferralEmailsForm = () => {
         axios.post('/referrals', { emails })
             .then(response => {
                 setEmails([])
-                alert('Referral emails sent!')
+                toast.success('Invite emails sent!', { icon: '👍' })
             })
             .catch(error => {
                 const { response: { data } } = error
@@ -35,19 +36,22 @@ const ReferralEmailsForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <ReactMultiEmail
-                emails={emails}
-                onChange={setEmails}
-                getLabel={getLabel}
-                placeholder="email@email.com"
-                validatedEmail={isEmail}
-            />
-            <p class="text-danger">
-                {errorMessage}
-            </p>
-            <input className="btn btn-primary" type="submit" />
-        </form>
+        <>
+            <form onSubmit={handleSubmit}>
+                <ReactMultiEmail
+                    emails={emails}
+                    onChange={setEmails}
+                    getLabel={getLabel}
+                    placeholder="email@email.com"
+                    validatedEmail={isEmail}
+                />
+                <p className="text-danger">
+                    {errorMessage}
+                </p>
+                <input className="btn btn-primary" type="submit" />
+            </form>
+            <Toaster />
+        </>
     )
 };
 
