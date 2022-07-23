@@ -1,5 +1,7 @@
 # Laravel Referrals
 
+![Laravel referrals screenshot](docs/laravel-referrals.png)
+
 > #### A Laravel + React project that implements a referrals system, heavily inspired by [Dropbox](https://www.dropbox.com/referrals).
 
 ## Features
