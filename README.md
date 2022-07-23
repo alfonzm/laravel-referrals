@@ -1,55 +1,97 @@
-# Coding Challenge
+# Laravel Referrals
 
-The main goal of this challenge is to get a sense of your coding style and choices.
+> #### A Laravel + React project that implements a referrals system, heavily inspired by [Dropbox](https://www.dropbox.com/referrals).
 
-The code challenge does not involve any exotic or bleeding-edge technologies, tools, etc. and that’s the point: We’d like to focus on your code style and not get distracted.
+## Features
 
-On that note, we’re also not looking for "rights and wrongs", and there are no "trick parts" in this challenge. We would merely like to get a more profound impression of how you write code.
+- Users can send out referral links to multiple email addresses
+- Recipients will receive an email containing a registration link with a referral code
+- When recipients register using the link, the referrer will earn 1 referral point
+- Referrers can earn a maximum of 10 points
+- Users can view a list of their referrals and see how many users already registered using their links
+- An admin user can view a dashboard page with all the referrals in the system
 
-That also allows us to have a more fruitful and constructive discussion at the technical interview. We’re not fans of white-boarding at interviews, so we’d much rather have some concrete code to talk about. We think that makes the interview much more enjoyable and productive.
+## Getting Started
+
+### Requirements
+
+- PHP 7.4
+- Laravel 8.4
+
+### Installation
+
+Clone the repository.
+```
+git clone https://github.com/alfonzm/laravel-referrals.git
+```
+
+Switch to the project folder.
+```
+cd laravel-referrals
+```
+
+Install dependencies and setup Laravel project.
+```
+composer install
+npm run install --legacy-peer-deps
+php artisan key:generate
+```
+
+Create an `.env` file and make necessary changes for your environment.
+```
+cp .env.example .env
+```
+
+Run migrations with seeder. This will seed admin roles and a super-admin user.
+```
+php artisan migrate --seed
+```
+
+Serve the app. You may also use [Laravel Sail](https://laravel.com/docs/8.x/sail), [Valet](https://laravel.com/docs/8.x/valet), etc.
+
+```
+php artisan serve
+npm run watch
+```
+
+## Running Tests
+
+When running tests, it is recommended to use a separate database and `.env.testing` file.
+
+```
+cp .env.example .env.testing
+```
+
+Then configure your DB config in the `.env.testing` file.
+
+Or, you can also use a sqlite database:
+
+```
+touch database/database.sqlite
+```
+
+Then in the `.env.testing` file, remove all DB related variables except for:
+```
+DB_CONNECTION=sqlite
+```
+
+To run the tests:
+
+```
+php artisan test
+```
 
 
-# Your challenge/task
+## Dependencies
 
-Develop a referrals feature using Laravel 8 and React. This feature is heavily inspired by Dropbox's referral https://www.dropbox.com/referrals so it would be a great reference for this task. For every successful referral (meaning you get a user to sign up using your referral link), you will get one point.
+- [BenSampo/laravel-enum](https://github.com/BenSampo/laravel-enum)
+- [spatie/laravel-cors](https://github.com/spatie/laravel-cors)
+- [spatie/laravel-permission](https://github.com/spatie/laravel-permission)
 
-## Task Specifications
+## Authors
 
-* Allow users to login and register
-* Develop a new page `<domain>/referrals` to show a form where the user can input multiple emails to invite.
-* Ideally, the front-end should be written in react or should use a react component where the input is a multi-select _similar to dropbox_.
-* Send an email notification to the invited email. The email's content doesn't have to be fancy, it can contain a simple instruction and link to the registration page with the referral link `<domain>/?refer=<code>`
-* Track successful referrals - when a user signs up from a referral link, increase the number of referrals count of the referrer.
+- [Alfonz Montelibano](https://github.com/alfonzm)
 
-## Notes
-* Users who are invited already cannot be invited again.
-* Existing users cannot be invited.
-* A user can have a maximum of 10 successful referral points.
+## License
 
-## Bonus Points
-* Create a new page for an admin user `<domain>/admin/referrals` that shows the list of all the referrals made in the system. Columns can be referrer, email referred, date, status
-
-## Invite Email
-**Subject**
-<first_name> recommends ContactOut
-
-**Body**
-<first_name> has been using ContactOut, and thinks it could be of use for you.  
-  
-Here’s their invitation link for you:  
-<referral_link>
-  
-ContactOut gives you access to contact details for about 75% of the world’s professionals.  
-  
-Great for recruiting, sales, and marketing outreach.  
-  
-It’s an extension that works right on top of LinkedIn.  
-  
-Here’s their invitation link again:  
-<referral_link>
-
-## Submission Requirements
-
-1. Zip your submission, rename the zip file into your name `laravel-yourName.zip` and send it to <a href="mailto:albert@contactout.io">albert@contactout.io</a> and <a href="mailto:ac@contactout.io">ac@contactout.io</a>. You may need to upload it to google drive if you're not able to share a zip file in the email directly.
-2. Please also create a video demo walking us through the submission and a separate one to explain the code. Make sure to include the video links in your readme
-
+The MIT License (MIT). Please see License File for more information.
