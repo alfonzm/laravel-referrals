@@ -7,6 +7,7 @@
             <div id="user-referrals"
                 referrals="{{ $referrals }}"
                 points="{{ $points }}"
+                maxPoints="{{ $maxPoints }}"
             >
             </div>
         </div>

@@ -21,7 +21,8 @@ class ReferralController extends Controller
 
         return view('referrals')->with([
             'referrals' => $referrals,
-            'points' => $user->referralPoints
+            'points' => $user->referralPoints,
+            'maxPoints' => config('referrals.max_referral_points')
         ]);
     }
 

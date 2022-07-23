@@ -9,7 +9,7 @@ const UserReferrals = (props) => {
     return (
         <>
             <ReferralEmailsForm onUpdateReferrals={setReferrals} />
-            <ReferralPoints points={props.points} />
+            <ReferralPoints points={props.points} maxPoints={props.maxPoints} />
             <UserReferralsList referrals={referrals} />
         </>
     )
@@ -22,9 +22,14 @@ if (document.getElementById('user-referrals')) {
 
     const referrals = JSON.parse(userReferralsElement.getAttribute('referrals'))
     const points = userReferralsElement.getAttribute('points')
+    const maxPoints = userReferralsElement.getAttribute('maxPoints')
 
     ReactDOM.render(
-        <UserReferrals referrals={referrals} points={points} />,
+        <UserReferrals
+            referrals={referrals}
+            points={points}
+            maxPoints={maxPoints}
+        />,
         userReferralsElement
     );
 }

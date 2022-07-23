@@ -61,8 +61,12 @@ class User extends Authenticatable
     |--------------------------------------------------------------------------
     */
 
-    public function getReferralPointsAttribute() {
+    public function getSuccessfulReferralsCountAttribute() {
         return $this->referrals()->claimed()->count();
+    }
+
+    public function getReferralPointsAttribute() {
+        return min($this->successfulReferralsCount, config('referrals.max_referral_points'));
     }
 
     /*
