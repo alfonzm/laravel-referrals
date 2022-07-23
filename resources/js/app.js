@@ -13,3 +13,6 @@ require('./bootstrap');
  */
 
 require('./components/referrals/ReferralEmailsForm');
+require('./components/referrals/ReferralPoints');
+require('./components/referrals/ReferralsList');
+require('./components/referrals/UserReferrals');

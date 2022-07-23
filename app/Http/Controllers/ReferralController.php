@@ -15,12 +15,13 @@ class ReferralController extends Controller
      */
     public function index()
     {
-        $referrals = auth()->user()->referrals;
-        $claimedReferrals = $referrals->where('status', ReferralStatus::Claimed);
+        $user = auth()->user();
+
+        $referrals = $user->latestReferrals();
 
         return view('referrals')->with([
             'referrals' => $referrals,
-            'claimedReferrals' => $claimedReferrals
+            'points' => $user->referralPoints
         ]);
     }
 
@@ -31,10 +32,10 @@ class ReferralController extends Controller
      */
     public function store(StoreReferralRequest $request, ReferralService $referralService)
     {
-        $validated = $request->validated();
+        $user = auth()->user();
 
-        $referralService->sendReferralLink($request->user(), $validated['emails']);
+        $referralService->sendReferralLink($user, $request->validated()['emails']);
 
-        return response('Successful', 201);
+        return response()->created(['referrals' => $user->latestReferrals()]);
     }
 }

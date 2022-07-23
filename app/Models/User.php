@@ -51,4 +51,24 @@ class User extends Authenticatable
     public function referrals() {
         return $this->hasMany(Referral::class, 'referrer_user_id');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Accessors
+    |--------------------------------------------------------------------------
+    */
+
+    public function getReferralPointsAttribute() {
+        return $this->referrals()->claimed()->count();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+
+    public function latestReferrals() {
+        return $this->referrals()->latest('updated_at')->get();
+    }
 }

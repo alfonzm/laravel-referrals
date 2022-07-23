@@ -5,7 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { ReactMultiEmail, isEmail } from 'react-multi-email';
 import 'react-multi-email/style.css';
 
-const ReferralEmailsForm = () => {
+const ReferralEmailsForm = ({ onUpdateReferrals }) => {
     const [emails, setEmails] = useState([]);
     const [errorMessage, setErrorMessage] = useState(null);
 
@@ -26,6 +26,7 @@ const ReferralEmailsForm = () => {
         axios.post('/referrals', { emails })
             .then(response => {
                 setEmails([])
+                onUpdateReferrals(response.data.referrals)
                 toast.success('Invite emails sent!', { icon: '👍' })
             })
             .catch(error => {
@@ -37,26 +38,30 @@ const ReferralEmailsForm = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <ReactMultiEmail
-                    emails={emails}
-                    onChange={setEmails}
-                    getLabel={getLabel}
-                    placeholder="email@email.com"
-                    validatedEmail={isEmail}
-                />
-                <p className="text-danger">
-                    {errorMessage}
-                </p>
-                <input className="btn btn-primary" type="submit" />
-            </form>
+            <div className="card mb-5">
+                <div className="card-header">Invite a Friend</div>
+                <div className="card-body">
+                    <p>Send referral links</p>
+                    <div>
+                        <form onSubmit={handleSubmit}>
+                            <ReactMultiEmail
+                                emails={emails}
+                                onChange={setEmails}
+                                getLabel={getLabel}
+                                placeholder="email@email.com"
+                                validatedEmail={isEmail}
+                            />
+                            <p className="text-danger">
+                                {errorMessage}
+                            </p>
+                            <input className="btn btn-primary" type="submit" />
+                        </form>
+                    </div>
+                </div>
+            </div>
             <Toaster />
         </>
     )
 };
 
 export default ReferralEmailsForm;
-
-if (document.getElementById('referral-emails-form')) {
-    ReactDOM.render(<ReferralEmailsForm />, document.getElementById('referral-emails-form'));
-}

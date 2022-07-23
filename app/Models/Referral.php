@@ -18,12 +18,24 @@ class Referral extends Model
         'status',
     ];
 
+    protected $appends = ['formattedStatus'];
+
     public static function boot() {
         parent::boot();
 
         self::creating(function ($model) {
             $model->code = (string) Str::uuid();
         });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    */
+
+    public function scopeClaimed($query) {
+        return $query->where('status', ReferralStatus::Claimed);
     }
 
     /*
@@ -38,7 +50,7 @@ class Referral extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | Accessor methods
+    | Accessors
     |--------------------------------------------------------------------------
     */
 
