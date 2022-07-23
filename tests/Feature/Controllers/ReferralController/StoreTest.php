@@ -57,6 +57,51 @@ class StoreTest extends TestCase
         Queue::assertPushed(SendReferralLink::class, count($recipientEmails));
     }
 
+    /** @test */
+    public function userCannotInviteEmailAgain()
+    {
+        Queue::fake();
+
+        $referral = Referral::factory()->create(['recipient_email' => $this->invitedEmail]);
+
+        $response = $this->actingAs($referral->referrer)
+            ->postJson(route('referrals.store'), ['emails' => [$this->invitedEmail]]);
+
+        $response->assertStatus(422);
+
+        $this->assertDatabaseCount('referrals', 1);
+
+        Queue::assertNothingPushed();
+    }
+
+    /** @test */
+    public function otherUserCanInviteInvitedEmailAgain()
+    {
+        Queue::fake();
+
+        $referral = Referral::factory()->create(['recipient_email' => $this->invitedEmail]);
+        $newUser = User::factory()->create();
+
+        $response = $this->actingAs($newUser)
+            ->postJson(route('referrals.store'), ['emails' => [$this->invitedEmail]]);
+
+        $response->assertCreated();
+
+        $this->assertDatabaseCount('referrals', 2);
+
+        $this->assertDatabaseHas('referrals', [
+            'recipient_email'  => $this->invitedEmail,
+            'referrer_user_id' => $referral->referrer->id,
+        ]);
+
+        $this->assertDatabaseHas('referrals', [
+            'recipient_email'  => $this->invitedEmail,
+            'referrer_user_id' => $newUser->id,
+        ]);
+
+        Queue::assertPushed(SendReferralLink::class, 1);
+    }
+
     /**
      * @test
      * @dataProvider provideInvalidEmailsData
@@ -87,7 +132,6 @@ class StoreTest extends TestCase
             'duplicate emails'      => [['duplicate@email.com', 'duplicate@email.com']],
             'current user email'    => [[$this->authenticatedEmail]],
             'registered user email' => [[$this->registeredEmail]],
-            'invited user email'    => [[$this->invitedEmail]],
         ];
     }
 }

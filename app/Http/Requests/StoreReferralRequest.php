@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreReferralRequest extends FormRequest
 {
@@ -24,7 +25,9 @@ class StoreReferralRequest extends FormRequest
                 'email',
                 'distinct',
                 'unique:users,email',
-                'unique:referrals,recipient_email',
+                Rule::unique('referrals', 'recipient_email')->where(function ($query) {
+                    return $query->where('referrer_user_id', $this->user()->id);
+                })
             ],
         ];
     }
