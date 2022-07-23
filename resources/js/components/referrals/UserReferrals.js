@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import ReferralEmailsForm from './ReferralEmailsForm';
 import ReferralPoints from './ReferralPoints';
-import ReferralsList from './ReferralsList';
+import UserReferralsList from './UserReferralsList';
 
 const UserReferrals = (props) => {
     const [referrals, setReferrals] = useState(props.referrals)
@@ -10,7 +10,7 @@ const UserReferrals = (props) => {
         <>
             <ReferralEmailsForm onUpdateReferrals={setReferrals} />
             <ReferralPoints points={props.points} />
-            <ReferralsList referrals={referrals} />
+            <UserReferralsList referrals={referrals} />
         </>
     )
 };

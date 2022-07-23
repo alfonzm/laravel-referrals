@@ -14,7 +14,9 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    <p>{{ __('You are logged in!') }}</p>
+
+                    Go to <a href="{{ route('referrals.index') }}">referrals dashboard</a>.
                 </div>
             </div>
         </div>
