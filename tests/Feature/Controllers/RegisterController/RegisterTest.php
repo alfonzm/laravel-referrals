@@ -25,7 +25,7 @@ class RegisterTest extends TestCase
             'password_confirmation' => '::password::',
         ]);
 
-        $response->assertStatus(201);
+        $response->assertCreated();
 
         $this->assertDatabaseCount('users', 2);
     }
@@ -43,7 +43,7 @@ class RegisterTest extends TestCase
             'referral_code' => $referral->code,
         ]);
 
-        $response->assertStatus(201);
+        $response->assertCreated();
 
         $this->assertDatabaseCount('users', 2);
 

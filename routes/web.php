@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\RegisterReferralController;
+use App\Http\Controllers\Admin\ReferralController as AdminReferralController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,11 +23,21 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::resource('/referrals', ReferralController::class)
-        ->only(['index', 'store']);
-});
-
+// Public Routes
 Route::get('/refer', RegisterReferralController::class)->name('registerReferral');
+
+// Auth Routes
+Route::middleware(['auth'])
+    ->group(function () {
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
+        Route::resource('/referrals', ReferralController::class)
+        ->only(['index', 'store']);
+    });
+
+// Admin Routes
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['role:super-admin'])
+    ->group(function () {
+        Route::get('/referrals', [AdminReferralController::class, 'index'])->name('referrals.index');
+    });

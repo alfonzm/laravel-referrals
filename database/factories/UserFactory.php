@@ -32,6 +32,18 @@ class UserFactory extends Factory
     }
 
     /**
+     * Indicate that the model is an admin
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function admin()
+    {
+        return $this->state([])->afterCreating(function (User $user) {
+            $user->assignRole('super-admin');
+        });
+    }
+
+    /**
      * Indicate that the model's email address should be unverified.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory

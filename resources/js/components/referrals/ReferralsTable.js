@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
-const ReferralsTable = (props) => {
-    const referrals = props.referrals
+const ReferralsTable = ({ referrals, showReferrer }) => {
     return (
         <table className="table">
             <thead>
                 <tr>
+                    {showReferrer && <th>Referrer</th>}
                     <th>Recipient Email</th>
                     <th>Updated</th>
                     <th>Status</th>
@@ -15,8 +15,9 @@ const ReferralsTable = (props) => {
             <tbody>
                 {referrals.map(referral => (
                     <tr key={referral.id}>
+                        {showReferrer && <td>{referral.referrer.name} ({referral.referrer.email})</td>}
                         <td>{referral.recipient_email}</td>
-                        <td>{referral.updated_at}</td>
+                        <td>{new Date(referral.updated_at).toLocaleString('en-US')}</td>
                         <td>{referral.formattedStatus}</td>
                     </tr>
                 ))}
