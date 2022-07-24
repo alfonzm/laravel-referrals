@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
-import toast, { Toaster } from 'react-hot-toast';
-import { ReactMultiEmail, isEmail } from 'react-multi-email';
-import 'react-multi-email/style.css';
+import React, { useState } from 'react'
+import ReactDOM from 'react-dom'
+import axios from 'axios'
+import toast, { Toaster } from 'react-hot-toast'
+import { ReactMultiEmail, isEmail } from 'react-multi-email'
+import 'react-multi-email/style.css'
 
 const ReferralEmailsForm = ({ onUpdateReferrals }) => {
-    const [emails, setEmails] = useState([]);
-    const [errorMessage, setErrorMessage] = useState(null);
+    const [emails, setEmails] = useState([])
+    const [errorMessage, setErrorMessage] = useState(null)
 
     function getLabel(email, index, removeEmail) {
         return (
@@ -17,23 +17,25 @@ const ReferralEmailsForm = ({ onUpdateReferrals }) => {
                 ×
                 </span>
             </div>
-        );
+        )
     }
 
     async function handleSubmit(event) {
-        event.preventDefault();
-        setErrorMessage(null);
+        event.preventDefault()
         axios.post('/referrals', { emails })
             .then(response => {
                 setEmails([])
                 onUpdateReferrals(response.data.referrals)
                 toast.success('Invite emails sent!', { icon: '👍' })
+                setErrorMessage(null)
             })
             .catch(error => {
                 const { response: { data } } = error
                 const errors = Object.entries(data.errors).map(error => error[1][0])
-                setErrorMessage(errors.join(' '))
-            });
+                setErrorMessage(errors.map(error => <>
+                    {error}<br />
+                </>))
+            })
     }
 
     return (
@@ -62,6 +64,6 @@ const ReferralEmailsForm = ({ onUpdateReferrals }) => {
             <Toaster />
         </>
     )
-};
+}
 
-export default ReferralEmailsForm;
+export default ReferralEmailsForm

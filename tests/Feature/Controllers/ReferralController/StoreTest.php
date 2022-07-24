@@ -40,7 +40,7 @@ class StoreTest extends TestCase
         ];
 
         $response = $this->actingAs($referrerUser)
-            ->post(route('referrals.store'), ['emails' => $recipientEmails]);
+            ->postJson(route('referrals.store'), ['emails' => $recipientEmails]);
 
         $response->assertCreated();
 
