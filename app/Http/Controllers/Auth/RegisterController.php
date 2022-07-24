@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\Rules\UnclaimedReferralCode;
 use App\Services\ReferralService;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -83,5 +84,21 @@ class RegisterController extends Controller
         }
 
         return $user;
+    }
+
+    // Custom Register form
+    public function showRegistrationForm(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'code' => ['sometimes', new UnclaimedReferralCode]
+        ]);
+
+        if($validator->fails()) {
+            // Refresh register page but without `code` query param
+            $request->session()->flash('invalid_code', 'Invalid referral code.');
+            return redirect()->route('register');
+        }
+
+        return view('auth.register');
     }
 }

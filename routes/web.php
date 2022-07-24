@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReferralController;
-use App\Http\Controllers\RegisterReferralController;
+use App\Http\Controllers\ReferralRegisterController;
 use App\Http\Controllers\Admin\ReferralController as AdminReferralController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +24,7 @@ Route::get('/', function () {
 Auth::routes();
 
 // Public Routes
-Route::get('/refer', RegisterReferralController::class)->name('registerReferral');
+Route::get('/refer', ReferralRegisterController::class)->name('registerReferral');
 
 // Auth Routes
 Route::middleware(['auth'])

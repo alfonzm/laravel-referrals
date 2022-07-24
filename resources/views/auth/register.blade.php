@@ -70,13 +70,22 @@
                                 <label for="referral-code" class="col-md-4 col-form-label text-md-end">{{ __('Referral Code') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="referral-code" type="text" class="form-control @error('referral_code') is-invalid @enderror" name="referral_code" value="{{ request()->get('code') }}">
+                                    <input id="referral-code" type="text" class="form-control-plaintext @error('referral_code') is-invalid @enderror" name="referral_code" value="{{ request()->get('code') }}" readonly>
 
                                     @error('referral_code')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
+                                </div>
+
+                            </div>
+                        @endif
+
+                        @if(Session::has('invalid_code'))
+                            <div class="row mb-3">
+                                <div class="col-md-6 offset-md-4">
+                                    <small class="text-danger">The referral link is invalid. You may continue registering without a referral code.</small>
                                 </div>
 
                             </div>
