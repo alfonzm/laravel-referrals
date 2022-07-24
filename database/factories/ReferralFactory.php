@@ -43,4 +43,18 @@ class ReferralFactory extends Factory
             ];
         });
     }
+
+    /**
+     * Indicate that the referral was already claimed
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function referredBy($userId)
+    {
+        return $this->state(function (array $attributes) use ($userId) {
+            return [
+                'referrer_user_id' => $userId
+            ];
+        });
+    }
 }
