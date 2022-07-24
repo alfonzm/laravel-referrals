@@ -30,8 +30,7 @@ Route::get('/refer', ReferralRegisterController::class)->name('registerReferral'
 Route::middleware(['auth'])
     ->group(function () {
         Route::get('/home', [HomeController::class, 'index'])->name('home');
-        Route::resource('/referrals', ReferralController::class)
-        ->only(['index', 'store']);
+        Route::resource('/referrals', ReferralController::class)->only(['index', 'store']);
     });
 
 // Admin Routes
@@ -39,5 +38,5 @@ Route::prefix('admin')
     ->name('admin.')
     ->middleware(['role:super-admin'])
     ->group(function () {
-        Route::get('/referrals', [AdminReferralController::class, 'index'])->name('referrals.index');
+        Route::resource('/referrals', AdminReferralController::class)->only(['index']);
     });

@@ -26,7 +26,7 @@ class StoreReferralRequest extends FormRequest
                 'email',
                 'distinct',
                 'unique:users,email',
-                new UninvitedEmail(),
+                new UninvitedEmail,
             ],
         ];
     }

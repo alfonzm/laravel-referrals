@@ -30,16 +30,6 @@ class Referral extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | Scopes
-    |--------------------------------------------------------------------------
-    */
-
-    public function scopeClaimed($query) {
-        return $query->where('status', ReferralStatus::Claimed);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
     | Relations
     |--------------------------------------------------------------------------
     */
@@ -50,10 +40,24 @@ class Referral extends Model
 
     /*
     |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    */
+
+    public function scopeClaimed($query) {
+        return $query->where('status', ReferralStatus::Claimed);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
     | Accessors
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Create a referral link URL with a `code` query parameter
+     * ex: https://<domain>/refer?code=abc-123
+     */
     public function getInviteLinkAttribute() {
         return route('registerReferral', ['code' => $this->code]);
     }

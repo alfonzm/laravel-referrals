@@ -78,15 +78,17 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        if(request()->has('referral_code')) {
-            $referral = Referral::where('code', request()->input('referral_code'))->first();
+        if($code = request()->input('referral_code')) {
+            $referral = Referral::where('code',$code)->first();
             (new ReferralService())->claimReferral($referral);
         }
 
         return $user;
     }
 
-    // Custom Register form
+    /**
+     * Custom Register form (/register route)
+     */
     public function showRegistrationForm(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -95,7 +97,7 @@ class RegisterController extends Controller
 
         if($validator->fails()) {
             // Refresh register page but without `code` query param
-            $request->session()->flash('invalid_code', 'Invalid referral code.');
+            $request->session()->flash('invalid_code', 'Invalid referral link.');
             return redirect()->route('register');
         }
 

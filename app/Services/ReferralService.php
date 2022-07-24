@@ -16,7 +16,7 @@ class ReferralService
      * @param array $emails Emails to send out invitations to
      * @return void
      */
-    public function sendReferralLink(User $referrer, array $emails)
+    public function sendReferralLinks(User $referrer, array $emails)
     {
         // Create referrals and persist to DB
         $referralEmails = collect($emails)

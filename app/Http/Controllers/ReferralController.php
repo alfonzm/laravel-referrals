@@ -34,8 +34,9 @@ class ReferralController extends Controller
     public function store(StoreReferralRequest $request, ReferralService $referralService)
     {
         $user = auth()->user();
+        $emails = $request->validated()['emails'];
 
-        $referralService->sendReferralLink($user, $request->validated()['emails']);
+        $referralService->sendReferralLinks($user, $emails);
 
         return response()->created(['referrals' => $user->latestReferrals()]);
     }

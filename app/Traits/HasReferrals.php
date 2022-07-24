@@ -22,11 +22,17 @@ trait HasReferrals
     |--------------------------------------------------------------------------
     */
 
-    public function getSuccessfulReferralsCountAttribute() {
+    /**
+     * Returns number of successful/claimed referrals, regardless of max points
+     */
+    public function getSuccessfulReferralsCountAttribute(): int {
         return $this->referrals()->claimed()->count();
     }
 
-    public function getReferralPointsAttribute() {
+    /**
+     * Returns referral points, taking into account max points
+     */
+    public function getReferralPointsAttribute(): int {
         return min($this->successfulReferralsCount, config('referrals.max_referral_points'));
     }
 
