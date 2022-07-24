@@ -6,8 +6,10 @@ const ReferralPoints = ({ points, maxPoints = 10 }) => {
         <div className="card mb-5">
             <div className="card-header">Referral Points</div>
             <div className="card-body">
-                <p>You currently have <strong>{points}/{maxPoints}</strong> referral points.</p>
-                <small class="text-muted">Note: You can only earn a maximum of {maxPoints} referral points. You can still invite your friends but you will no longer earn points.</small>
+                <div>You currently have <strong>{points}/{maxPoints}</strong> referral points.</div>
+                {points >= maxPoints &&
+                    <small class="text-muted">Note: You can only earn a maximum of {maxPoints} referral points. You can still invite your friends but you will no longer earn points.</small>
+                }
             </div>
         </div>
     )

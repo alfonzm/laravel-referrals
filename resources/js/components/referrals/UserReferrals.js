@@ -21,8 +21,8 @@ if (document.getElementById('user-referrals')) {
     const userReferralsElement = document.getElementById('user-referrals')
 
     const referrals = JSON.parse(userReferralsElement.getAttribute('referrals'))
-    const points = userReferralsElement.getAttribute('points')
-    const maxPoints = userReferralsElement.getAttribute('maxPoints')
+    const points = Number(userReferralsElement.getAttribute('points'))
+    const maxPoints = Number(userReferralsElement.getAttribute('maxPoints'))
 
     ReactDOM.render(
         <UserReferrals
