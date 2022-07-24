@@ -25,6 +25,7 @@
             <h2 class="mb-5">Contact instantly via personal emails & mobile phones</h2>
             <div>
                 <a href="{{ route('register') }}" class="btn btn-primary btn-lg">Sign up for free</a>
+                <a href="{{ route('login') }}" class="btn btn-link btn-lg">Login</a>
             </div>
         </div>
     </body>
