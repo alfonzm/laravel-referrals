@@ -36,12 +36,12 @@ Install dependencies and setup Laravel project.
 ```
 composer install
 npm install --legacy-peer-deps
-php artisan key:generate
 ```
 
 Create an `.env` file and make necessary changes for your environment.
 ```
 cp .env.example .env
+php artisan key:generate
 ```
 
 Run migrations with seeder. This will seed admin roles and a super-admin user.
