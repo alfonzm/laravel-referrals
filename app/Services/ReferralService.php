@@ -18,12 +18,13 @@ class ReferralService
      */
     public function sendReferralLinks(User $referrer, array $emails)
     {
-        // Create referrals and persist to DB
+        // Create array of [['recipient_email' => $email], ...]
         $referralEmails = collect($emails)
             ->map(function ($email) {
                 return ['recipient_email' => $email];
             });
 
+        // Persist to DB
         $referrals = $referrer->referrals()->createMany($referralEmails);
 
         // Send out invitation links

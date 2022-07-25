@@ -24,7 +24,7 @@ class Referral extends Model
         parent::boot();
 
         self::creating(function ($model) {
-            $model->code = (string) Str::uuid();
+            $model->code = self::generateReferralCode();
         });
     }
 
@@ -64,5 +64,15 @@ class Referral extends Model
 
     public function getFormattedStatusAttribute() {
         return ReferralStatus::getDescription($this->status);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+
+    public static function generateReferralCode(): string {
+        return (string) Str::uuid();
     }
 }

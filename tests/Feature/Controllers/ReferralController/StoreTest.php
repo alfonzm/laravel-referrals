@@ -87,17 +87,7 @@ class StoreTest extends TestCase
 
         $response->assertCreated();
 
-        $this->assertDatabaseCount('referrals', 2);
-
-        $this->assertDatabaseHas('referrals', [
-            'recipient_email'  => $this->invitedEmail,
-            'referrer_user_id' => $referral->referrer->id,
-        ]);
-
-        $this->assertDatabaseHas('referrals', [
-            'recipient_email'  => $this->invitedEmail,
-            'referrer_user_id' => $newUser->id,
-        ]);
+        $this->assertEquals(2, Referral::where('recipient_email', $this->invitedEmail)->count());
 
         Queue::assertPushed(SendReferralLink::class, 1);
     }
@@ -106,7 +96,7 @@ class StoreTest extends TestCase
      * @test
      * @dataProvider provideInvalidEmailsData
      */
-    public function invalidEmailsShouldReturnErrors($emails)
+    public function invalidEmailsCannotBeInvited($emails)
     {
         Queue::fake();
 

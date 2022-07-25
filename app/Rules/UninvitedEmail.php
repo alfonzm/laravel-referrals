@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Rule;
 class UninvitedEmail implements Rule
 {
     /**
-     * Determine if the validation rule passes.
+     * Determine if authenticated user has not yet invited the email address
      *
      * @param  string  $attribute
      * @param  mixed  $value
