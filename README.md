@@ -90,7 +90,7 @@ php artisan test
 
 ## Database Seed and Sample Users
 
-The project includes database seeders for sample an admin user and a user with 10 claimed referrals.
+The project includes database seeders for an admin user and a user with 10 claimed referrals.
 
 ```
 php artisan db:seed
