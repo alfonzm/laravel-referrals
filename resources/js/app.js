@@ -12,9 +12,5 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./components/referrals/ReferralsTable');
-require('./components/referrals/ReferralEmailsForm');
-require('./components/referrals/ReferralPoints');
-require('./components/referrals/UserReferralsList');
 require('./components/referrals/UserReferrals');
 require('./components/admin/referrals/AdminReferrals');
