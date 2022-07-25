@@ -62,6 +62,10 @@ class Referral extends Model
         return route('registerReferral', ['code' => $this->code]);
     }
 
+    /**
+     * sent    === 'Invitation Sent'
+     * claimed === 'Claimed!'
+     */
     public function getFormattedStatusAttribute() {
         return ReferralStatus::getDescription($this->status);
     }
