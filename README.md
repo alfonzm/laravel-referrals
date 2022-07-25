@@ -35,7 +35,7 @@ cd laravel-referrals
 Install dependencies and setup Laravel project.
 ```
 composer install
-npm run install --legacy-peer-deps
+npm install --legacy-peer-deps
 php artisan key:generate
 ```
 
