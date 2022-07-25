@@ -13,6 +13,11 @@
 - Users can view a list of their referrals and see how many users already registered using their links
 - An admin user can view a dashboard page with all the referrals in the system
 
+Videos:
+- [Project Demo](https://drive.google.com/file/d/1hhBmILLrccbw9H6QVZOCzfOTpZN3yx63/view?usp=sharing)
+- [Code Walkthrough (Backend)](https://drive.google.com/file/d/1hhBmILLrccbw9H6QVZOCzfOTpZN3yx63/view?usp=sharing)
+- [Code Walkthrough (Frontend)](https://drive.google.com/file/d/1hhBmILLrccbw9H6QVZOCzfOTpZN3yx63/view?usp=sharing)
+
 ## Getting Started
 
 ### Requirements
@@ -44,7 +49,7 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-Run migrations with seeder. This will seed admin roles and a super-admin user.
+Run migrations with seeder. The seeders will create an admin user and sample users.
 ```
 php artisan migrate --seed
 ```
@@ -83,6 +88,23 @@ To run the tests:
 php artisan test
 ```
 
+## Database Seed and Sample Users
+
+The project includes database seeders for sample an admin user and a user with 10 claimed referrals.
+
+```
+php artisan db:seed
+```
+
+You can then use the following accounts for testing:
+
+Admin account
+- Email: admin@contactout.com
+- Password: password
+
+Account with 10 referrals
+- Email: referrals@contactout.com
+- Password: password
 
 ## Dependencies
 
